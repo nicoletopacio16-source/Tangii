@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine?</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFD700;
+    font-family: "Comic Sans MS", "Segoe UI", cursive;
+  }
+
+  .card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    max-width: 420px;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #ff4d6d;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #yesBtn:hover {
+    transform: scale(1.15);
+  }
+
+  #noBtn {
+    background: #ddd;
+    position: absolute;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(100vh);
+    }
+    to {
+      transform: translateY(-10vh);
+    }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: red;
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1>Hey Tangi 💛</h1>
+  <p>Will you be my Valentine?</p>
+
+  <div class="buttons">
+    <button id="yesBtn" onclick="sayYes()">Yes 💖</button>
+    <button id="noBtn" onmouseover="runAway()">No 🙈</button>
+  </div>
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <!-- Put yellow.mp3 in same folder -->
+  <source src="yellow.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  /* Floating hearts generator */
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💛";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 400);
+
+  /* No button runs away */
+  function runAway() {
+    const btn = document.getElementById("noBtn");
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+  }
+
+  /* Confetti explosion */
+  function confettiBoom() {
+    for (let i = 0; i < 120; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.background = ["#ff4d6d","#FFD700","#ff9a9e"][Math.floor(Math.random()*3)];
+      confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  }
+
+  /* YES button */
+  function sayYes() {
+    document.getElementById("bgMusic").play();
+    confettiBoom();
+
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+        background:#FFD700;
+        font-family:'Comic Sans MS', cursive;
+        text-align:center;
+      ">
+        <h1 style="color:#ff4d6d;">YAY TANGI!!! 💛💛💛</h1>
+        <p style="font-size:22px;">
+           Look at the stars ✨<br>
+           Look how they shine for you <br>
+           I can't wait to be your Valentine 💛
+        </p>
+      </div>
+    `;
+  }
+</script>
+
+</body>
+</html>
